@@ -1,0 +1,518 @@
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<form asp-action="Index" method="get">
+    @using (Html.BeginForm("Index", "Recruit", FormMethod.Get))
+    {
+        <div class="form-actions no-color">
+            <p>
+                Find by Location: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
+                <input type="submit" value="Search" class="btn btn-default" /> |
+                <a asp-action="Index">Back to Full List</a>
+            </p>
+        </div>
+    }
+</form>
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Recruiter)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OpeningDetails)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CandidateName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReceivedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ContactNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Company)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalExperience)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RelevantExperience)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CCTC)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ECTC)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CurrentLocation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PreferredLocation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NoticePeriodOrLastWorkingDay)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HoldingOfferOrPackageAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExperienceInCloudPlatforms)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExperienceInLeadHandling)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExperienceInPerformanceTesting)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ContractRoleRequired)
+            </th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Recruiter)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OpeningDetails)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CandidateName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReceivedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ContactNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Company)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalExperience)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RelevantExperience)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CCTC)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ECTC)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CurrentLocation)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PreferredLocation)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NoticePeriodOrLastWorkingDay)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HoldingOfferOrPackageAmount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExperienceInCloudPlatforms)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExperienceInLeadHandling)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExperienceInPerformanceTesting)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ContractRoleRequired)
+                </td>
+                <td>
+                    <a button class="btn btn-outline-primary" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a button class="btn btn-outline-primary" asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a button class="btn btn-outline-primary" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+
+            </tr>
+        }
+        </tbody>
+    </table>
+    
+
+</div>
+
+@section Scripts {
+    
+}
+@model IEnumerable<TechyRecruit.Models.RecruitModel>
+@using Syncfusion.EJ2
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@* @section ControlsSection *@
+@* { *@
+@*     <div class="control-section"> *@
+@*         <div> *@
+@*             <h1>List of Candidates for Recruitment</h1> *@
+@*             <p> *@
+@*                 <a class="btn btn-success" asp-action="Create">Create New</a> *@
+@*             </p> *@
+@*             <form asp-action="Index" method="get"> *@
+@*                 @using (Html.BeginForm("Index", "Recruit", FormMethod.Get)) *@
+@*                 { *@
+@*                     <div class="input-group mb-3"> *@
+@*                         <ejs-dropdownlist id="DataRange" dataSource="@ViewBag.Data" placeholder="Select a Data Range" index="0" width="220px"> *@
+@*                             <e-dropdownlist-fields text="Text" value="Value"></e-dropdownlist-fields> *@
+@*                         </ejs-dropdownlist> *@
+@*                         <button type="submit" class="btn btn-primary">Search</button> *@
+@*                         <a class="btn btn-secondary" asp-action="Index">Back to Full List</a> *@
+@*                         <a class="btn btn-primary" href="@Url.Action("DownloadFilteredRecruitsPdf", "Pdf", new { search = ViewData["CurrentFilter"] })">Download PDF</a> *@
+@*                     </div> *@
+@*                 } *@
+@*             </form> *@
+@*         </div> *@
+@*         <ejs-grid id="GridOverview" allowFiltering="true" allowSorting="true" height="400" rowHeight="38" enableHover="false" enableHeaderFocus="true" load="load" dataBound="startTimer" actionComplete="complete" enableVirtualization="true" allowSelection="true"> *@
+@*             <e-grid-filtersettings type="Menu"></e-grid-filtersettings> *@
+@*             <e-grid-loadingIndicator indicatorType="Shimmer"></e-grid-loadingIndicator> *@
+@*             <e-grid-selectionsettings persistSelection="true" type="Multiple" checkboxOnly="true"></e-grid-selectionsettings> *@
+@* *@
+@*             <e-grid-columns> *@
+@*                 <e-grid-column field="" type="checkbox" width="60" allowFiltering="false" allowSorting="false"></e-grid-column> *@
+@*                 <e-grid-column field="Recruiter" width="60" allowFiltering="false" headerText="Recruiter"></e-grid-column> *@
+@*                 <e-grid-column field="OpeningDetails" headerText="Opening Details"></e-grid-column> *@
+@*                 <e-grid-column field="CandidateName" headerText="Candidate Name"></e-grid-column> *@
+@*                 <e-grid-column field="ReceivedDate" headerText="Received Date" format="yMd"></e-grid-column> *@
+@*                 <e-grid-column field="ContactNumber" headerText="Contact Number"></e-grid-column> *@
+@*                 <e-grid-column field="Email" headerText="Email"></e-grid-column> *@
+@*                 <e-grid-column field="Company" headerText="Company"></e-grid-column> *@
+@*                 <e-grid-column field="TotalExperience" headerText="Total Experience"></e-grid-column> *@
+@*                 <e-grid-column field="RelevantExperience" headerText="Relevant Experience"></e-grid-column> *@
+@*                 <e-grid-column field="CCTC" headerText="CCTC"></e-grid-column> *@
+@*                 <e-grid-column field="ECTC" headerText="ECTC"></e-grid-column> *@
+@*                 <e-grid-column field="CurrentLocation" headerText="Current Location"></e-grid-column> *@
+@*                 <e-grid-column field="PreferredLocation" headerText="Preferred Location"></e-grid-column> *@
+@*                 <e-grid-column field="NoticePeriodOrLastWorkingDay" headerText="Notice Period Or Last Working Day"></e-grid-column> *@
+@*                 <e-grid-column field="HoldingOfferOrLastWorkingDay" headerText="Holding Offer Or Last Working Day"></e-grid-column> *@
+@*                 <e-grid-column field="ExperienceInCloudPlatforms" headerText="Experience In Cloud Platforms"></e-grid-column> *@
+@*                 <e-grid-column field="ExperienceInLeadHandling" headerText="Experience In Lead Handling"></e-grid-column> *@
+@*                 <e-grid-column field="ExpereienceInPerformanceTesting" headerText="Expereience In Performance Testing"></e-grid-column> *@
+@*                 <e-grid-column field="ContractRoleRequired" headerText="Contract Role Required"></e-grid-column> *@
+@*                 @*              *@
+@*             <e-grid-column headerText="Actions" width="150"> *@
+@*                 @* <ng-template #template let-data> *@ 9
+@*                 $1$     <div class="btn-group" role="group"> #1# *@
+@*                 $1$         <a class="btn btn-primary btn-sm" asp-action="Edit" asp-route-id="@data.Id">Edit</a> #1# *@
+@*                 $1$         <br /> #1# *@
+@*                 $1$         <a class="btn btn-info btn-sm" asp-action="Details" asp-route-id="@data.Id">Details</a> #1# *@
+@*                 $1$         <br /> #1# *@
+@*                 $1$         <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@data.Id">Delete</a> #1# *@
+@*                 $1$     </div> #1# *@
+@*                 $1$ </ng-template> #1# *@
+@*                 $1$ </e-grid-column> #1# *@
+@*             </e-grid-columns> *@
+@*         </ejs-grid> *@
+@*     </div> *@
+@* *@
+@*     <!-- Include the Syncfusion script --> *@
+@*     <script src="https://cdn.syncfusion.com/ej2/25.1.0/dist/ej2.min.js"></script> *@
+@* *@
+@*     <!-- Your JavaScript code for configuring the Grid and handling events --> *@
+@*     <script> *@
+@*     document.addEventListener('DOMContentLoaded', function () { *@
+@*             var grid = new ej.grids.Grid({ *@
+@*             dataSource: @Html.Raw(Json.Serialize(Model)), // This binds the data to the grid *@
+@*             columns: [ *@
+@*                 { field: 'Recruiter', headerText: 'Recruiter' }, *@
+@*                     { field: 'OpeningDetails', headerText: 'Opening Details' }, *@
+@*                     { field: 'CandidateName', headerText: 'Candidate Name' }, *@
+@*                     { field: 'ReceivedDate', headerText: 'Received Date', format: 'yMd' }, *@
+@*                     { field: 'ContactNumber', headerText: 'Contact Number' }, *@
+@*                     { field: 'Email', headerText: 'Email' }, *@
+@*                     { field: 'Company', headerText: 'Company' }, *@
+@*                     { field: 'TotalExperience', headerText: 'Total Experience' }, *@
+@*                     { field: 'RelevantExperience', headerText: 'Relevant Experience' }, *@
+@*                     { field: 'CCTC', headerText: 'CCTC' }, *@
+@*                     { field: 'ECTC', headerText: 'ECTC' }, *@
+@*                     { field: 'CurrentLocation', headerText: 'Current Location' }, *@
+@*                     { field: 'PreferredLocation', headerText: 'Preferred Location' }, *@
+@*                     { field: 'NoticePeriodOrLastWorkingDay', headerText: 'Notice Period' }, *@
+@*                     { field: 'HoldingOfferOrPackageAmount', headerText: 'Holding Offer/Package Amount?' }, *@
+@*                     { field: 'ExperienceInCloudPlatforms', headerText: 'Exp in AWS/Azure/GCP?' }, *@
+@*                     { field: 'ExperienceInLeadHandling', headerText: 'Lead Handling Exp?' }, *@
+@*                     { field: 'ExperienceInPerformanceTesting', headerText: 'Exp in Performance' }, *@
+@*                     { field: 'ContractRoleRequired', headerText: 'Contract Role?' } *@
+@*                 // Add other column configurations similarly *@
+@*             ], *@
+@*             allowFiltering: true, *@
+@*             allowSorting: true, *@
+@*             height: 400 *@
+@*             // Other properties and events can be configured here *@
+@*         }); *@
+@*         grid.appendTo('#GridOverview'); // Attach the grid to the specified HTML element *@
+@*     }); *@
+@* </script> *@
+@* *@
+@*     <!-- CSS Styling --> *@
+@*     <style> *@
+@* *@
+@* .fabric .empimg { *@
+@*     background-color: #0078d6; *@
+@* } *@
+@* *@
+@* .material .empimg { *@
+@*     background-color: #e3165b; *@
+@* } *@
+@* *@
+@* .highcontrast .empimg { *@
+@*     background-color: #ffd939; *@
+@* } *@
+@* *@
+@* .fluent .empimg { *@
+@*     background-color: #106EBE; *@
+@* } *@
+@* *@
+@* _:-ms-fullscreen, :root .highcontrast .e-userimg.sf-icon-Male::before, *@
+@* _:-ms-fullscreen, :root .highcontrast .e-userimg.sf-icon-FeMale::before { *@
+@*     color: black; *@
+@* } *@
+@* *@
+@* .highcontrast .e-userimg.sf-icon-Male::before, *@
+@* .highcontrast .e-userimg.sf-icon-FeMale::before { *@
+@*     color: black; *@
+@* } *@
+@* *@
+@* .bootstrap .empimg { *@
+@*     background-color: #0078d6; *@
+@* } *@
+@* *@
+@* .bootstrap4 .empimg { *@
+@*     background-color: #0078d6; *@
+@* } *@
+@* *@
+@* .bootstrap5 .empimg { *@
+@*     background-color: #0078d6; *@
+@* } *@
+@* *@
+@* #Emptext { *@
+@*     top: -12px; *@
+@*     left: 41px; *@
+@*     position: relative; *@
+@* } *@
+@* *@
+@* .e-grid.e-rtl #Emptext { *@
+@*     top: -12px; *@
+@*     left: -41px; *@
+@*     position: relative; *@
+@* } *@
+@* *@
+@* .empimg { *@
+@*     height: 27px; *@
+@*     width: 29px; *@
+@*     border-radius: 14px; *@
+@*     background-color:#e3165b; *@
+@* } *@
+@* *@
+@* .e-userimg.sf-icon-Male::before, *@
+@* .e-userimg.sf-icon-FeMale::before { *@
+@*     font-size: 13px; *@
+@* } *@
+@* *@
+@* .e-userimg.sf-icon-Male, .e-userimg.sf-icon-FeMale { *@
+@*     margin: 0px 8px; *@
+@*     line-height: 26px; *@
+@*     color: white; *@
+@*     font-size: 13px; *@
+@* } *@
+@* *@
+@* .e-userimg.sf-icon-Male::before { *@
+@*     content: '\e700'; *@
+@* } *@
+@* *@
+@* .e-userimg.sf-icon-FeMale::before { *@
+@*     content: '\e701'; *@
+@* } *@
+@* *@
+@* .highcontrast .e-grid td.e-rowcell.e-selectionbackground.e-active { *@
+@*     background-color: transparent; *@
+@*     color: white; *@
+@* } *@
+@* *@
+@* td.e-rowcell.e-selectionbackground.e-active { *@
+@*     background-color: transparent; *@
+@* } *@
+@* *@
+@* .highcontrast #msg { *@
+@*     color: #FFFFFF *@
+@* } *@
+@* *@
+@* .e-bigger .e-grid .statustxt { *@
+@*     position: relative; *@
+@*     top: -2px; *@
+@* } *@
+@* *@
+@* td.e-rowcell .statustxt.e-activecolor { *@
+@*     color: #00cc00; *@
+@*     position: relative; *@
+@*     top: 9px; *@
+@* } *@
+@* *@
+@* td.e-rowcell .statustxt.e-inactivecolor { *@
+@*     color: #e60000; *@
+@*     position: relative; *@
+@*     top: 9px; *@
+@* } *@
+@* *@
+@* .bootstrap5 td.e-rowcell .statustxt.e-inactivecolor, *@
+@* .bootstrap5 td.e-rowcell .statustxt.e-activecolor { *@
+@*     top: 8px; *@
+@* } *@
+@* *@
+@* .bootstrap5 .e-checkboxfiltertext .statustemp .statustxt.e-activecolor, *@
+@* .bootstrap5 .e-checkboxfiltertext .statustemp .statustxt.e-inactivecolor { *@
+@*     position: relative; *@
+@*     top: 1.5px; *@
+@* } *@
+@* *@
+@* .e-bigger.bootstrap5 .e-checkboxfiltertext .statustemp .statustxt.e-activecolor, *@
+@* .e-bigger.bootstrap5 .e-checkboxfiltertext .statustemp .statustxt.e-inactivecolor { *@
+@*     top: -0.5px; *@
+@* } *@
+@* *@
+@* .bootstrap5 .e-checkboxfiltertext #Trusttext { *@
+@*     margin-left: -4px; *@
+@* } *@
+@* *@
+@* .statustemp.e-inactivecolor { *@
+@*     background-color: #ffd7cc; *@
+@* } *@
+@* *@
+@* .statustemp.e-activecolor { *@
+@*     background-color: #ccffcc; *@
+@* } *@
+@* *@
+@* .statustxt.e-activecolor { *@
+@*     color: #00cc00; *@
+@* } *@
+@* *@
+@* .statustxt.e-inactivecolor { *@
+@*     color: #e60000; *@
+@* } *@
+@* *@
+@* #Trusttext { *@
+@*     position: relative; *@
+@*     top: 1px; *@
+@* } *@
+@* *@
+@* .e-image { *@
+@*     height: 13px; *@
+@*     width: 14px; *@
+@* } *@
+@* *@
+@* .statustemp.e-inactivecolor { *@
+@*     width: 64px; *@
+@* } *@
+@* *@
+@* .statustemp.e-activecolor { *@
+@*     width: 57px; *@
+@* } *@
+@* *@
+@* .statustemp { *@
+@*     position: relative; *@
+@*     height: 19px; *@
+@*     border-radius: 5px; *@
+@*     text-align: center *@
+@* } *@
+@* *@
+@* #msg { *@
+@*     font-family: "Segoe UI", "GeezaPro", "DejaVu Serif", sans-serif; *@
+@*     font-size: 14px; *@
+@*     font-weight: 400; *@
+@*     opacity: 0.95; *@
+@*     color: #333; *@
+@*     float: right; *@
+@*     margin-top: 3px; *@
+@* } *@
+@* *@
+@* @@media only screen and (max-width: 370px) { *@
+@*     #msg { *@
+@*         float: left; *@
+@*         margin-top: 3px; *@
+@*     } *@
+@* *@
+@*     #GridOverview { *@
+@*         margin-top: 36px; *@
+@*     } *@
+@*     } *@
+@* *@
+@* #samplecontainer { *@
+@*     padding-top: 5px; *@
+@* } *@
+@* *@
+@* #myProgress { *@
+@*     position: relative; *@
+@*     height: 18px; *@
+@*     width: 10em; *@
+@*     text-align: left; *@
+@*     background-color: white; *@
+@* } *@
+@* *@
+@* .highcontrast .e-grid #myProgress { *@
+@*     background-color: black; *@
+@* } *@
+@* *@
+@* #myBar { *@
+@*     position: absolute; *@
+@*     width: 10%; *@
+@*     height: 100%; *@
+@*     background-color: #00b300; *@
+@* } *@
+@* *@
+@* #myBar.progressdisable { *@
+@*     background-color: #df2222; *@
+@* } *@
+@* *@
+@* #pbarlabel { *@
+@*     position: relative; *@
+@*     left: 10px; *@
+@*     line-height: 18px; *@
+@*     font-size: 10px; *@
+@*     color: white; *@
+@* } *@
+@* .custom-rating.e-rating-container .e-rating-item-container , *@
+@* .e-bigger .custom-rating.e-rating-container .e-rating-item-container .e-rating-icon, *@
+@* .e-bigger.custom-rating.e-rating-container .e-rating-item-container .e-rating-icon { *@
+@*     font-size: 11px; *@
+@* } *@
+@* .custom-rating.e-rating-container .e-rating-item-container .e-rating-icon { *@
+@*     -webkit-text-fill-color: lightgrey; *@
+@*     -webkit-text-stroke: 1px lightgrey; *@
+@* } *@
+@* /*.custom-rating.e-rating-container .e-rating-item-container.e-rating-selected .e-rating-icon {*/ *@
+@* /*    background: linear-gradient(to right, #ffa600 var(--rating-value), #ffa600 var(--rating-value));*/ *@
+@* /*    -webkit-background-clip: text;*/ *@
+@* /*    -webkit-text-fill-color: transparent;*/ *@
+@* /*    -webkit-text-stroke: 1px #ffa600;*/ *@
+@* /*}*/ *@
+@* *@
+@* </style> *@
+@* } *@
