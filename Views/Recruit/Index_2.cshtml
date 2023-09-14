@@ -1,0 +1,165 @@
+@model IEnumerable<TechyRecruit.Models.RecruitModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+<h1>List of Candidates for Recruitment</h1>
+    <p>
+        <a class="btn btn-success" asp-action="Create">Create New</a>
+    </p>
+
+<form asp-action="Index" method="get">
+    @using (Html.BeginForm("Index", "Recruit", FormMethod.Get))
+    {
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" name="SearchString" placeholder="Find by Location" value="@ViewData["CurrentFilter"]" />
+            <button type="submit" class="btn btn-primary">Search</button>
+            <a class="btn btn-secondary" asp-action="Index">Back to Full List</a>
+        </div>
+        <a class="btn btn-primary" href="@Url.Action("DownloadFilteredRecruitsPdf", "Pdf", new { search = ViewData["CurrentFilter"] })">Download PDF</a>
+
+    }   
+</form>
+
+<div class="table-responsive">
+    <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Recruiter)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OpeningDetails)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CandidateName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReceivedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ContactNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Company)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalExperience)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RelevantExperience)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CCTC)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ECTC)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CurrentLocation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PreferredLocation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NoticePeriodOrLastWorkingDay)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HoldingOfferOrPackageAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExperienceInCloudPlatforms)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExperienceInLeadHandling)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExperienceInPerformanceTesting)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ContractRoleRequired)
+            </th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Recruiter)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OpeningDetails)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CandidateName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReceivedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ContactNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Company)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalExperience)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RelevantExperience)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CCTC)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ECTC)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CurrentLocation)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PreferredLocation)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NoticePeriodOrLastWorkingDay)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HoldingOfferOrPackageAmount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExperienceInCloudPlatforms)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExperienceInLeadHandling)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExperienceInPerformanceTesting)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ContractRoleRequired)
+                </td>
+                <td class="text-center">
+                    <div class="btn-group" role="group">
+                        <a class="btn btn-primary btn-sm" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                        <br/>
+                        <a class="btn btn-info btn-sm" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                        <br/>
+                        <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </div>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+</div>

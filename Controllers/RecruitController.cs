@@ -1,15 +1,12 @@
-using System.IO;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Globalization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TechyRecruit.Models;
 using OfficeOpenXml;
-using System;
-using System.Globalization;
 using Microsoft.AspNetCore.Authorization;
+using TechyRecruit.Data;
+using TechyRecruit.Service;
+
 
 
 namespace TechyRecruit.Controllers
@@ -18,18 +15,28 @@ namespace TechyRecruit.Controllers
     public class RecruitController : Controller
     {
         private readonly TechyRecruitContext _context;
-
-        public RecruitController(TechyRecruitContext context)
+        private readonly IEmailService _emailService;
+        private readonly IRecruitService _recruitService;
+        
+        public RecruitController(TechyRecruitContext context,
+            IEmailService emailService,
+            IRecruitService recruitService
+        )
         {
             _context = context;
+            _emailService = emailService;
+            _recruitService = recruitService;
         }
+        
 
         // GET: Recruit
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-              return _context.RecruitModel != null ? 
-                          View(await _context.RecruitModel.ToListAsync()) :
-                          Problem("Entity set 'TechyRecruitContext.RecruitModel'  is null.");
+            var controllerName = ControllerContext.ActionDescriptor.ControllerName;
+            ViewBag.ControllerName = controllerName;
+            var recruits = _context.RecruitModel.ToList();
+            ViewBag.recruits = recruits;
+            return View();
         }
 
         // GET: Recruit/Details/5
@@ -61,7 +68,10 @@ namespace TechyRecruit.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Recruiter,OpeningDetails,CandidateName,ReceivedDate,ContactNumber,Email,Company,TotalExperience,RelevantExperience,CCTC,ECTC,CurrentLocation,PreferredLocation,NoticePeriodOrLastWorkingDay,HoldingOfferOrPackageAmount,ExperienceInCloudPlatforms,ExperienceInLeadHandling,ExperienceInPerformanceTesting,ContractRoleRequired")] RecruitModel recruitModel)
+        public async Task<IActionResult> Create(
+            [Bind(
+                "Id,Recruiter,OpeningDetails,CandidateName,ReceivedDate,ContactNumber,Email,Company,TotalExperience,RelevantExperience,CCTC,ECTC,CurrentLocation,PreferredLocation,NoticePeriodOrLastWorkingDay,HoldingOfferOrPackageAmount,ExperienceInCloudPlatforms,ExperienceInLeadHandling,ExperienceInPerformanceTesting,ContractRoleRequired")]
+            RecruitModel recruitModel)
         {
             if (ModelState.IsValid)
             {
@@ -69,6 +79,7 @@ namespace TechyRecruit.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
             return View(recruitModel);
         }
 
@@ -85,6 +96,7 @@ namespace TechyRecruit.Controllers
             {
                 return NotFound();
             }
+
             return View(recruitModel);
         }
 
@@ -93,7 +105,10 @@ namespace TechyRecruit.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Recruiter,OpeningDetails,CandidateName,ReceivedDate,ContactNumber,Email,Company,TotalExperience,RelevantExperience,CCTC,ECTC,CurrentLocation,PreferredLocation,NoticePeriodOrLastWorkingDay,HoldingOfferOrPackageAmount,ExperienceInCloudPlatforms,ExperienceInLeadHandling,ExperienceInPerformanceTesting,ContractRoleRequired")] RecruitModel recruitModel)
+        public async Task<IActionResult> Edit(int id,
+            [Bind(
+                "Id,Recruiter,OpeningDetails,CandidateName,ReceivedDate,ContactNumber,Email,Company,TotalExperience,RelevantExperience,CCTC,ECTC,CurrentLocation,PreferredLocation,NoticePeriodOrLastWorkingDay,HoldingOfferOrPackageAmount,ExperienceInCloudPlatforms,ExperienceInLeadHandling,ExperienceInPerformanceTesting,ContractRoleRequired")]
+            RecruitModel recruitModel)
         {
             if (id != recruitModel.Id)
             {
@@ -118,8 +133,10 @@ namespace TechyRecruit.Controllers
                         throw;
                     }
                 }
+
                 return RedirectToAction(nameof(Index));
             }
+
             return View(recruitModel);
         }
 
@@ -150,80 +167,127 @@ namespace TechyRecruit.Controllers
             {
                 return Problem("Entity set 'TechyRecruitContext.RecruitModel'  is null.");
             }
+
             var recruitModel = await _context.RecruitModel.FindAsync(id);
             if (recruitModel != null)
             {
                 _context.RecruitModel.Remove(recruitModel);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool RecruitModelExists(int id)
         {
-          return (_context.RecruitModel?.Any(e => e.Id == id)).GetValueOrDefault();
-        }
-        [HttpPost]
-public async Task<IActionResult> UploadExcel(IFormFile excelFile)
-{
-    if (excelFile == null || excelFile.Length <= 0)
-    {
-        ModelState.AddModelError("excelFile", "Please select a valid Excel file.");
-        return RedirectToAction("Index");
-    }
-
-    using (var package = new ExcelPackage(excelFile.OpenReadStream()))
-    {
-        var worksheet = package.Workbook.Worksheets[0]; // Assuming data is in the first worksheet
-
-        for (int row = 2; row <= worksheet.Dimension.End.Row; row++) // Assuming header row is in the first row
-        {
-            RecruitModel recruit = new RecruitModel();
-            recruit.Recruiter = worksheet.Cells[row, 1].Value?.ToString();
-            recruit.OpeningDetails = worksheet.Cells[row, 2].Value?.ToString();
-            recruit.CandidateName = worksheet.Cells[row, 3].Value?.ToString();
-            recruit.ReceivedDate = worksheet.Cells[row, 4].Value?.ToString();
-            recruit.ContactNumber = worksheet.Cells[row, 5].Value?.ToString();
-            recruit.Email = worksheet.Cells[row, 6].Value?.ToString();
-            recruit.Company = worksheet.Cells[row, 7].Value?.ToString();
-            recruit.TotalExperience = worksheet.Cells[row, 8].Value?.ToString();
-            recruit.RelevantExperience = worksheet.Cells[row, 9].Value?.ToString();
-            recruit.CCTC = decimal.TryParse(worksheet.Cells[row, 10].Value?.ToString(), out decimal cctcValue)
-                ? cctcValue
-                : 0;
-            recruit.ECTC = decimal.TryParse(worksheet.Cells[row, 11].Value?.ToString(), out decimal ectcValue)
-                ? ectcValue
-                : 0;
-            recruit.CurrentLocation = worksheet.Cells[row, 12].Value?.ToString();
-            recruit.PreferredLocation = worksheet.Cells[row, 13].Value?.ToString();
-            recruit.NoticePeriodOrLastWorkingDay = worksheet.Cells[row, 14].Value?.ToString();
-            recruit.HoldingOfferOrPackageAmount = worksheet.Cells[row, 15].Value?.ToString();
-            recruit.ExperienceInCloudPlatforms = worksheet.Cells[row, 16].Value?.ToString();
-            recruit.ExperienceInLeadHandling = worksheet.Cells[row, 17].Value?.ToString();
-            recruit.ExperienceInPerformanceTesting = worksheet.Cells[row, 18].Value?.ToString();
-            recruit.ContractRoleRequired = worksheet.Cells[row, 19].Value?.ToString();
-
-            _context.RecruitModel.Add(recruit);
-            // if (decimal.TryParse(worksheet.Cells[row, 10].Text, out decimal cctc))
-            // {
-            //     recruit.CCTC = cctc;
-            // }
-            // else
-            // {
-            //     ModelState.AddModelError("excelFile", $"Invalid CCTC value in row {row}");
-            //     return RedirectToAction("Index");
-            // }
+            return (_context.RecruitModel?.Any(e => e.Id == id)).GetValueOrDefault();
         }
         
+        
+        [HttpPost]
+        public async Task<IActionResult> UploadExcel(IFormFile? excelFile)
+        {
+            if (excelFile == null || excelFile.Length <= 0)
+            {
+                ModelState.AddModelError("excelFile", "Please select a valid Excel file.");
+                return RedirectToAction("Index");
+            }
 
-        await _context.SaveChangesAsync();
-    }
-    
+            using (var package = new ExcelPackage(excelFile.OpenReadStream()))
+            {
+                var worksheet = package.Workbook.Worksheets[0]; // Assuming data is in the first worksheet
 
-    return RedirectToAction("Index");
-}
+                for (int row = 2; row <= worksheet.Dimension.End.Row; row++) // Assuming header row is in the first row
+                {
+                    var recruit = new RecruitModel
+                    {
+                        Recruiter = worksheet.Cells[row, 1]?.Value?.ToString(),
+                        OpeningDetails = worksheet.Cells[row, 2]?.Value?.ToString(),
+                        CandidateName = worksheet.Cells[row, 3]?.Value?.ToString(),
+                        ReceivedDate = ParseExcelDate(worksheet.Cells[row, 4]?.Value?.ToString()),
+                        ContactNumber = worksheet.Cells[row, 5]?.Value?.ToString(),
+                        Email = worksheet.Cells[row, 6]?.Value?.ToString(),
+                        Company = worksheet.Cells[row, 7]?.Value?.ToString(),
+                        TotalExperience = worksheet.Cells[row, 8]?.Value?.ToString(),
+                        RelevantExperience = worksheet.Cells[row, 9]?.Value?.ToString(),
+                        CCTC = worksheet.Cells[row, 10]?.Value?.ToString(),
+                        ECTC = worksheet.Cells[row, 11]?.Value?.ToString(),
+                        CurrentLocation = worksheet.Cells[row, 12]?.Value?.ToString(),
+                        PreferredLocation = worksheet.Cells[row, 13]?.Value?.ToString(),
+                        NoticePeriodOrLastWorkingDay = worksheet.Cells[row, 14]?.Value?.ToString(),
+                        HoldingOfferOrPackageAmount = worksheet.Cells[row, 15]?.Value?.ToString(),
+                        ExperienceInCloudPlatforms = worksheet.Cells[row, 16]?.Value?.ToString(),
+                        ExperienceInLeadHandling = worksheet.Cells[row, 17]?.Value?.ToString(),
+                        ExperienceInPerformanceTesting = worksheet.Cells[row, 18]?.Value?.ToString(),
+                        ContractRoleRequired = worksheet.Cells[row, 19]?.Value?.ToString(),
+                    };
+                        _context.RecruitModel.Add(recruit);
+                }
 
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction("Index");
         }
-    
+        private string ParseExcelDate(string dateString)
+        {
+            if (DateTime.TryParse(dateString, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime parsedDateTime))
+            {
+                return parsedDateTime.ToString("dd-MM-yyyy");
+            }
+            else
+            {
+                return string.Empty;
+            }
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> Index(string searchString)
+        {
+            ViewData["CurrentFilter"] = searchString;
+
+            var recruits = from r in _context.RecruitModel
+                select r;
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                searchString = searchString.ToLower(); // Convert the search string to lowercase
+
+                recruits = recruits.Where(r => r.CurrentLocation!.ToLower().Contains(searchString));
+            }
+
+            return View(await recruits.ToListAsync().ConfigureAwait(false));
+            return RedirectToAction("DownloadFilteredRecruitsPdf", "Pdf", new { searchString });
+        }
+        [HttpGet]
+        public IActionResult FilteredData(string? searchString)
+        {
+            var recruits = GetFilteredRecruits(searchString);
+            return View(recruits);
+        }
+        
+        [HttpGet]
+        public IActionResult DownloadFilteredRecruitsPdf(string searchString)
+        {
+            return RedirectToAction("DownloadFilteredRecruitsPdf", "Pdf", new { search = searchString });
+        }
+        
+        
+        private IQueryable<RecruitModel> GetFilteredRecruits(string? searchString)
+        {
+            var recruits = _context.RecruitModel.AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                searchString = searchString.ToLower();
+                recruits = recruits.Where(r => r.CurrentLocation!.ToLower().Contains(searchString));
+            }
+
+            return recruits;
+        }
+        
+        
+        
+    }
 }

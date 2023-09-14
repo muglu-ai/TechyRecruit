@@ -5,132 +5,96 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Delete</h1>
+<h1>Delete Recruit</h1>
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>RecruitModel</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Recruiter)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Recruiter)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.OpeningDetails)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.OpeningDetails)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CandidateName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CandidateName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ReceivedDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ReceivedDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ContactNumber)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ContactNumber)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Company)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Company)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TotalExperience)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TotalExperience)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RelevantExperience)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RelevantExperience)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CCTC)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CCTC)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ECTC)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ECTC)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CurrentLocation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CurrentLocation)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PreferredLocation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PreferredLocation)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NoticePeriodOrLastWorkingDay)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NoticePeriodOrLastWorkingDay)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.HoldingOfferOrPackageAmount)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.HoldingOfferOrPackageAmount)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ExperienceInCloudPlatforms)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ExperienceInCloudPlatforms)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ExperienceInLeadHandling)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ExperienceInLeadHandling)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ExperienceInPerformanceTesting)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ExperienceInPerformanceTesting)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ContractRoleRequired)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ContractRoleRequired)
-        </dd>
-    </dl>
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title">Are you sure you want to delete this record?</h4>
+        <hr />
+        <dl class="row">
+                    <div class="col-sm-3">
+                        <dt>Recruiter</dt>
+                        <dd>@Html.DisplayFor(model => model.Recruiter)</dd>
+                    </div>
+                    <div class="col-sm-3">
+                        <dt>Opening Details</dt>
+                        <dd>@Html.DisplayFor(model => model.OpeningDetails)</dd>
+                    </div>
+                    <div class="col-sm-3">
+                        <dt>Candidate Name</dt>
+                        <dd>@Html.DisplayFor(model => model.CandidateName)</dd>
+                    </div>
+                    <div class="col-sm-3">
+                        <dt>Received Date</dt>
+                        <dd>@Html.DisplayFor(model => model.ReceivedDate)</dd>
+                    </div>
+                    <div class="col-sm-3">
+                        <dt>Contact Number</dt>
+                        <dd>@Html.DisplayFor(model => model.ContactNumber)</dd>
+                    </div>
+                    <div class="col-sm-3">
+                         <dt>Email</dt>
+                        <dd>@Html.DisplayFor(model => model.Email)</dd>
+                    </div>
+                    <div class="col-sm-3">
+                        <dt>Company</dt>
+                        <dd>@Html.DisplayFor(model => model.Company)</dd>
+                    </div>
+                    <div class="col-sm-3">
+                        <dt>Total Experience</dt>
+                        <dd>@Html.DisplayFor(model => model.TotalExperience)</dd>
+                    </div>
+                    <div class="col-sm-3">
+                         <dt>Relevant Experience</dt>
+                                  <dd>@Html.DisplayFor(model => model.RelevantExperience)</dd>
+                              </div>
+                              <div class="col-sm-3">
+                                  <dt>CCTC</dt>
+                                  <dd>@Html.DisplayFor(model => model.CCTC)</dd>
+                              </div>
+                              <div class="col-sm-3">
+                                  <dt>ECTC</dt>
+                                  <dd>@Html.DisplayFor(model => model.ECTC)</dd>
+                              </div>
+                              <div class="col-sm-3">
+                                  <dt>Current Location</dt>
+                                  <dd>@Html.DisplayFor(model => model.CurrentLocation)</dd>
+                              </div>
+                              <div class="col-sm-3">
+                                  <dt>Preferred Location</dt>
+                                  <dd>@Html.DisplayFor(model => model.PreferredLocation)</dd>
+                              </div>
+                              <div class="col-sm-3">
+                                  <dt>Notice Period Or Last Working Day</dt>
+                                  <dd>@Html.DisplayFor(model => model.NoticePeriodOrLastWorkingDay)</dd>
+                              </div>
+                              <div class="col-sm-3">
+                                  <dt>Holding Offer Or Package Amount</dt>
+                                  <dd>@Html.DisplayFor(model => model.HoldingOfferOrPackageAmount)</dd>
+                              </div>
+                              <div class="col-sm-3">
+                                  <dt>Experience In CloudPlatforms</dt>
+                                  <dd>@Html.DisplayFor(model => model.ExperienceInCloudPlatforms)</dd>
+                              </div>
+                              <div class="col-sm-3">
+                                  <dt>Experience In LeadHandling</dt>
+                                  <dd>@Html.DisplayFor(model => model.ExperienceInLeadHandling)</dd>
+                              </div>
+                              <div class="col-sm-3">
+                                  <dt>Experience In Performance Testing</dt>
+                                  <dd>@Html.DisplayFor(model => model.ExperienceInPerformanceTesting)</dd>
+                              </div>
+                              <div class="col-sm-3">
+                                  <dt>Contract Role Required</dt>
+                                  <dd>@Html.DisplayFor(model => model.ContractRoleRequired)</dd>
+                              </div>
+            </dl>
+        </div>
+    </div>
     
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
-</div>
+        <form asp-action="Delete" class="mt-3">
+            <input type="hidden" asp-for="Id" />
+            <button type="submit" class="btn btn-danger">Delete</button>
+            <a class="btn btn-secondary" asp-action="Index">Cancel</a>
+        </form>
+

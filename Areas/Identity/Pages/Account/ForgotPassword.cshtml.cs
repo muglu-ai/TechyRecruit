@@ -3,6 +3,7 @@
 #nullable disable
 
 using System;
+using System.IO;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
@@ -13,18 +14,29 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using TechyRecruit.Service;
+using TechyRecruit.Models;
+
 
 namespace TechyRecruit.Areas.Identity.Pages.Account
 {
     public class ForgotPasswordModel : PageModel
     {
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly IEmailSender _emailSender;
+        private readonly IEmailService _emailService;
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        private const string TemplatePath = @"EmailTemplate/ResetPassword.html";
 
-        public ForgotPasswordModel(UserManager<IdentityUser> userManager, IEmailSender emailSender)
+
+
+        public ForgotPasswordModel(UserManager<IdentityUser> userManager, 
+            IEmailService emailService,
+            IWebHostEnvironment webHostEnvironment)
         {
             _userManager = userManager;
-            _emailSender = emailSender;
+            _emailService = emailService;
+            _webHostEnvironment = webHostEnvironment;
+
         }
 
         /// <summary>
@@ -53,8 +65,8 @@ namespace TechyRecruit.Areas.Identity.Pages.Account
         {
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByEmailAsync(Input.Email);
-                if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+                var user = await _userManager.FindByEmailAsync(Input.Email).ConfigureAwait(false);
+                if (user == null || !(await _userManager.IsEmailConfirmedAsync(user).ConfigureAwait(false)))
                 {
                     // Don't reveal that the user does not exist or is not confirmed
                     return RedirectToPage("./ForgotPasswordConfirmation");
@@ -62,18 +74,27 @@ namespace TechyRecruit.Areas.Identity.Pages.Account
 
                 // For more information on how to enable account confirmation and password reset please
                 // visit https://go.microsoft.com/fwlink/?LinkID=532713
-                var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+                var code = await _userManager.GeneratePasswordResetTokenAsync(user).ConfigureAwait(false);
                 code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                 var callbackUrl = Url.Page(
                     "/Account/ResetPassword",
                     pageHandler: null,
-                    values: new { area = "Identity", code },
+                    values: new { area = "Identity", code, email=Input.Email },
                     protocol: Request.Scheme);
+                
+                UserEmailOptions emailOptions = new UserEmailOptions
+                {
+                    ToEmails = new List<string> { Input.Email },
+                    Subject = "Password Reset",
+                    Body = null, // Assign null for now, you'll replace this
+                    PlaceHolders = new List<KeyValuePair<string, string>>
+                    {
+                        new KeyValuePair<string, string>("{(callbackUrl)}", callbackUrl)
+                    },
+                    TemplatePath = Path.Combine(_webHostEnvironment.ContentRootPath, "EmailTemplate", "ResetPassword.html")
 
-                await _emailSender.SendEmailAsync(
-                    Input.Email,
-                    "Reset Password",
-                    $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                };
+                await _emailService.SendEmailAsync(emailOptions).ConfigureAwait(false);
 
                 return RedirectToPage("./ForgotPasswordConfirmation");
             }

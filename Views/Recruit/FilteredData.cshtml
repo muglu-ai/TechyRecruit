@@ -1,0 +1,44 @@
+@model System.Linq.IQueryable<TechyRecruit.Models.RecruitModel>
+
+@{
+    ViewData["Title"] = "Filtered Data";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <h1>Filtered Data</h1>
+    <p>
+        <a class="btn btn-secondary" asp-action="Index">Back to Full List</a>
+        
+    </p>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+            <tr>
+                <th>Recruiter</th>
+                <th>Opening Details</th>
+                <th>Candidate Name</th>
+                <!-- Add other headers for each property -->
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var recruit in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => recruit.Recruiter)</td>
+                    <td>@Html.DisplayFor(modelItem => recruit.OpeningDetails)</td>
+                    <td>@Html.DisplayFor(modelItem => recruit.CandidateName)</td>
+                    <!-- Add other columns for each property -->
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@* <script> *@
+@*     document.getElementById('downloadPdfButton').addEventListener('click', function () { *@
+@*         window.location.href = '@Url.Action("DownloadFilteredPdf", "Recruit", new { searchString = ViewData["CurrentFilter"] })'; *@
+@*     }); *@
+@* </script> *@

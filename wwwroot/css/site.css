@@ -14,6 +14,106 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
-  font-family: "Roboto", sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
 }
+.logo-image {
+  width: 100px; /* Adjust the width as needed */
+  height: auto; /* Maintain the aspect ratio */
+}
+.control-section {
+  padding: 20px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 20px;
+}
+
+/* Style for the ejs-grid */
+#Grid {
+  margin-top: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.table-container {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+.table {
+  width: auto;
+  min-width: 100%; /* Ensures the table takes the full width of the container */
+  white-space: nowrap; /* Prevents text wrapping */
+}
+
+.table thead th {
+  position: sticky;
+  top: 0;
+  background-color: #f5f5f5;
+  z-index: 1; /* Ensures the header stays above the table body */
+}
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: auto;
+  max-height: 500px; /* Set the maximum height as needed */
+}
+
+.table-grid {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.table-grid th,
+.table-grid td {
+  padding: 10px;
+  border: 1px solid #ccc;
+  text-align: left;
+}
+
+.table-contains {
+  padding: 20px;
+  max-width: 1200px; /* Set the maximum width as needed */
+  margin: 0 auto;
+}
+
+.content-container {
+  flex: 1;
+}
+
+footer {
+  margin-top: auto;
+}
+
+.form-group label {
+  font-weight: bold;
+}
+
+/* Add spacing between form fields */
+.form-group {
+  margin-bottom: 20px;
+}
+
+/* Style the buttons */
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  border-color: #6c757d;
+}
+
+/* Center the form horizontally */
+.row {
+  justify-content: center;
+}
+
+
+
+

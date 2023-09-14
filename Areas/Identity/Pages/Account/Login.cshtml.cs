@@ -14,6 +14,12 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using TechyRecruit.Service;
+using HtmlAgilityPack;
+using System.Net;
+using System.Net.Mail;
+using Microsoft.Extensions.Options;
+
 
 namespace TechyRecruit.Areas.Identity.Pages.Account
 {
@@ -21,11 +27,16 @@ namespace TechyRecruit.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly IEmailService _emailService;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public LoginModel(SignInManager<IdentityUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<IdentityUser> signInManager, ILogger<LoginModel> logger, IEmailService emailService
+            , IWebHostEnvironment webHostEnvironment)
         {
             _signInManager = signInManager;
             _logger = logger;
+            _emailService = emailService;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         /// <summary>
@@ -115,6 +126,13 @@ namespace TechyRecruit.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
+                    string toEmail = Input.Email;
+
+                    // string toEmail = "to@example.com";
+                    string templateFilePath = Path.Combine(_webHostEnvironment.ContentRootPath, "EmailTemplate", "LoginNotification.html");
+                    // string body = File.ReadAllText(templateFilePath);
+
+                    // await _emailService.SendEmailAsync(toEmail, templateFilePath).ConfigureAwait(false);
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)

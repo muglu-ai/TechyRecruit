@@ -1,0 +1,107 @@
+@page
+@model IEnumerable<TechyRecruit.Models.RecruitModel>
+
+<h1>Filtered Recruitment Records</h1>
+
+@if (Model != null)
+{
+    <table>
+        <thead>
+        <tr>
+            <th>Recruiter</th>
+            <th>Opening Details</th>
+            <th>Candidate Name</th>
+            <th>Received Date</th>
+            <th>Contact Number</th>
+            <th>Email</th>
+            <th>Company</th>
+            <th>Total Experience</th>
+            <th>Relevant Experience</th>
+            <th>CCTC</th>
+            <th>ECTC</th>
+            <th>Current Location</th>
+            <th>Preferred Location</th>
+            <th>Notice Period/Last Working Day</th>
+            <th>Holding Offer/Package Amount</th>
+            <th>Experience in Cloud Platforms</th>
+            <th>Experience in Lead Handling</th>
+            <th>Experience in Performance Testing</th>
+            <th>Contract Role Required</th>
+        </tr>
+        </thead>
+        if(Model != null)
+        {
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Recruiter)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OpeningDetails)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CandidateName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReceivedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ContactNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Company)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalExperience)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RelevantExperience)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CCTC)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ECTC)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CurrentLocation)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PreferredLocation)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NoticePeriodOrLastWorkingDay)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HoldingOfferOrPackageAmount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExperienceInCloudPlatforms)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExperienceInLeadHandling)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExperienceInPerformanceTesting)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ContractRoleRequired)
+                </td>
+            </tr>
+        }
+        </tbody>
+        }
+    </table>
+    
+}
+else
+{
+    <p>No records found.</p>
+}
+
+

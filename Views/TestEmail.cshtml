@@ -1,0 +1,17 @@
+@model dynamic
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+@{
+    ViewData["Title"] = "Test Email";
+}
+
+<h2>Test Email Sent</h2>
+
+<div>
+    <p>The test email has been sent successfully.</p>
+    <p><a asp-controller="Recruit" asp-action="Index">Go back to home page</a></p>
+</div>
